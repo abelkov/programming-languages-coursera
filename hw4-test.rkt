@@ -56,6 +56,10 @@
 (check-equal? (sequence 3 8 3) '(3 6) "1b")
 (check-equal? (sequence 3 2 1) '() "1c")
 
+(check-equal? (string-append-map '["not" "quite" "pig" "latin"] "ey") '["notey" "quiteey" "pigey" "latiney"] "2a")
+
+(check-equal? (list-nth-mod '["she" "loves" "you"] 7) "loves" "3a")
+
 ;(define files (string-append-map 
 ;               (list "dan" "dog" "curry" "dog2") 
 ;               ".jpg"))
