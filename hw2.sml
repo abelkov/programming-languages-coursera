@@ -1,5 +1,6 @@
 (* Coursera Programming Languages, Homework 2 *)
 
+(* a little helper function. *)
 fun reverse_list (lst) =
   let
     fun reverse (remaining, so_far) =
@@ -10,15 +11,15 @@ fun reverse_list (lst) =
     reverse(lst, [])
   end
 
+
 (* if you use this function to compare two strings (returns true if the same
    string), then you avoid several of the functions in problem 1 having
    polymorphic types that may be confusing *)
 fun same_string(s1 : string, s2 : string) =
     s1 = s2
 
-(* put your solutions for problem 1 here *)
 
-(* Needs rewriting, algorithm is not elegant or obvious*)
+(* 1. Needs rewriting, algorithm is not elegant or obvious*)
 fun all_except_option (item, lst) =
   let
     fun remove (remaining, so_far) =
@@ -34,6 +35,7 @@ fun all_except_option (item, lst) =
     | (false, _) => NONE
   end
 
+
 fun get_substitutions1 (subs_list, str) =
   case subs_list of
     [] => []
@@ -41,6 +43,7 @@ fun get_substitutions1 (subs_list, str) =
       case all_except_option(str, subs) of
         NONE => get_substitutions1(subs_list', str)
       | SOME lst => lst @ get_substitutions1(subs_list', str)
+
 
 fun get_substitutions2 (subs_list, str) =
   let
@@ -54,6 +57,7 @@ fun get_substitutions2 (subs_list, str) =
   in
     extract(subs_list, [])
   end
+
 
 fun similar_names (subs_list, {first, middle, last}) =
   let
@@ -69,7 +73,6 @@ fun similar_names (subs_list, {first, middle, last}) =
   end
 
 
-
 (* you may assume that Num is always used with values 2, 3, ..., 10
    though it will not really come up *)
 datatype suit = Clubs | Diamonds | Hearts | Spades
@@ -81,12 +84,16 @@ datatype move = Discard of card | Draw
 
 exception IllegalMove
 
+
+(* 2a. *)
 fun card_color (card) =
   case card of
       (Clubs, _) => Black
     | (Spades, _) => Black
     | _ => Red
 
+
+(* 2b. *)
 fun card_value (card) =
   case card of
       (_, Ace) => 11
@@ -95,11 +102,15 @@ fun card_value (card) =
     | (_, Jack) => 10
     | (_, Num(i)) => i
 
+
+(* 2c. *)
 fun remove_card (cards, card, ex) =
   case all_except_option(card, cards) of
       NONE => raise ex
     | SOME without => without
 
+
+(* 2d. *)
 fun all_same_color(cards) =
   case cards of
       [] => true
@@ -109,6 +120,8 @@ fun all_same_color(cards) =
         then false
         else all_same_color(card2::rest)
 
+
+(* 2e. *)
 fun sum_cards(cards) =
   let
     fun accumulate(remaining, sum) =
@@ -119,6 +132,8 @@ fun sum_cards(cards) =
     accumulate(cards, 0)
   end
 
+
+(* 2f. *)
 fun score (hand, goal) =
   let
     val sum = sum_cards(hand)
@@ -130,6 +145,8 @@ fun score (hand, goal) =
     prelim_score div factor
   end
 
+
+(* 2g. Doesn't compile at the moment. *)
 fun officiate (stack, moves, goal) =
   let
     fun play (stack, hand, moves) =
