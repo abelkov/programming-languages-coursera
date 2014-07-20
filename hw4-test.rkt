@@ -75,6 +75,9 @@
 (define y '('a 'b))
 (check-equal? (stream-for-n-steps (cycle-lists x y) 4) '((1 . 'a) (2 . 'b) (3 . 'a) (1 . 'b)))
 
+(define vec #((1 . 'a) (2 . 'b) 'c 'd (3 . e) (4 . f)))
+(check-equal? (vector-assoc 3 vec) '(3 . e))
+
 ;(define files (string-append-map 
 ;               (list "dan" "dog" "curry" "dog2") 
 ;               ".jpg"))

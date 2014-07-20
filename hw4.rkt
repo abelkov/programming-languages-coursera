@@ -57,3 +57,15 @@
                   (list-ref ys (remainder n (length ys))))
             (stream (+ n 1)))))
   (stream 0))
+
+; 9
+(define (vector-assoc v vec)
+  (define (iter n)
+    (if (>= n (vector-length vec))
+        #f
+        (let ((cur (vector-ref vec n)))
+          (cond [(not (pair? cur)) (iter (+ n 1))]
+                [(equal? (car cur) v) cur]
+                [#t (iter (+ n 1))]))))
+  (iter 0))
+  
