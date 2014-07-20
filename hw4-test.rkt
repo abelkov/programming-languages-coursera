@@ -60,6 +60,12 @@
 
 (check-equal? (list-nth-mod '["she" "loves" "you"] 7) "loves" "3a")
 
+(define ones (lambda () (cons 1 ones)))
+
+(check-equal? (stream-for-n-steps ones 5) '(1 1 1 1 1))
+
+(check-equal? (stream-for-n-steps funny-number-stream 11) '(1 2 3 4 -5 6 7 8 9 -10 11))
+
 ;(define files (string-append-map 
 ;               (list "dan" "dog" "curry" "dog2") 
 ;               ".jpg"))

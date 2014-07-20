@@ -3,8 +3,6 @@
 
 (provide (all-defined-out)) ;; so we can put tests in a second file
 
-(define ones (lambda () (cons 1 ones)))
-
 
 ; 1
 (define (sequence low high stride)
@@ -28,12 +26,12 @@
 (define (stream-for-n-steps s n)
   (if (<= n 0)
       null
-      (cons (car (s)) (cdr (s)))))
+      (cons (car (s)) (stream-for-n-steps (cdr (s)) (- n 1)))))
 
 ; 5
-(define funny-number-stream
+(define (funny-number-stream)
   (define (stream x)
-    (cons (if (= (remainder x 5) 0) -x x)
+    (cons (if (= (remainder x 5) 0) (- x) x)
           (lambda () (stream (+ x 1)))))
-  (lambda () (stream 1)))
+  (stream 1))
       
