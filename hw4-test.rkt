@@ -66,6 +66,8 @@
 
 (check-equal? (stream-for-n-steps funny-number-stream 11) '(1 2 3 4 -5 6 7 8 9 -10 11))
 
+(check-equal? (stream-for-n-steps dan-than-dog 4) '("dan.jpg" "dog.jpg" "dan.jpg" "dog.jpg"))
+
 ;(define files (string-append-map 
 ;               (list "dan" "dog" "curry" "dog2") 
 ;               ".jpg"))

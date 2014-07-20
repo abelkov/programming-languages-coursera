@@ -34,4 +34,11 @@
     (cons (if (= (remainder x 5) 0) (- x) x)
           (lambda () (stream (+ x 1)))))
   (stream 1))
+
+; 6
+(define (dan-than-dog)
+  (define (stream x)
+    (cons x
+          (lambda () (stream (if (equal? x "dan.jpg") "dog.jpg" "dan.jpg")))))
+  (stream "dan.jpg"))
       
