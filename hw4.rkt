@@ -3,6 +3,8 @@
 
 (provide (all-defined-out)) ;; so we can put tests in a second file
 
+(define ones (lambda () (cons 1 ones)))
+
 
 ; 1
 (define (sequence low high stride)
@@ -22,3 +24,9 @@
         [(null? xs) (error "list-nth-mod: empty list")]
         [else (list-ref xs (remainder n (length xs)))]))
         
+; 4
+(define (stream-for-n-steps s n)
+  (if (<= n 0)
+      null
+      (cons (car (s)) (cdr (s)))))
+      
