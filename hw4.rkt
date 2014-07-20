@@ -39,6 +39,13 @@
 (define (dan-than-dog)
   (define (stream x)
     (cons x
-          (lambda () (stream (if (equal? x "dan.jpg") "dog.jpg" "dan.jpg")))))
+          (lambda ()
+            (stream (if (equal? x "dan.jpg") "dog.jpg" "dan.jpg")))))
   (stream "dan.jpg"))
+
+; 7
+(define (stream-add-zero s)
+  (lambda ()
+    (cons (cons 0 (car (s)))
+          (stream-add-zero (cdr (s))))))
       
