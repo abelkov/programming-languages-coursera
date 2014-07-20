@@ -29,4 +29,11 @@
   (if (<= n 0)
       null
       (cons (car (s)) (cdr (s)))))
+
+; 5
+(define funny-number-stream
+  (define (stream x)
+    (cons (if (= (remainder x 5) 0) -x x)
+          (lambda () (stream (+ x 1)))))
+  (lambda () (stream 1)))
       
