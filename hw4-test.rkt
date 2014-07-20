@@ -71,6 +71,10 @@
 (check-equal? (stream-for-n-steps (stream-add-zero ones) 2) '((0 . 1) (0 . 1)))
 (check-equal? (stream-for-n-steps (stream-add-zero dan-than-dog) 2) '((0 . "dan.jpg") (0 . "dog.jpg")))
 
+(define x '(1 2 3))
+(define y '('a 'b))
+(check-equal? (stream-for-n-steps (cycle-lists x y) 4) '((1 . 'a) (2 . 'b) (3 . 'a) (1 . 'b)))
+
 ;(define files (string-append-map 
 ;               (list "dan" "dog" "curry" "dog2") 
 ;               ".jpg"))

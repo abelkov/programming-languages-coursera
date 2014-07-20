@@ -48,4 +48,12 @@
   (lambda ()
     (cons (cons 0 (car (s)))
           (stream-add-zero (cdr (s))))))
-      
+
+; 8
+(define (cycle-lists xs ys)
+  (define (stream n)
+    (lambda ()
+      (cons (cons (list-ref xs (remainder n (length xs)))
+                  (list-ref ys (remainder n (length ys))))
+            (stream (+ n 1)))))
+  (stream 0))
