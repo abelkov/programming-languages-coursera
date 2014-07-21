@@ -78,6 +78,10 @@
 (define vec #((1 . 'a) (2 . 'b) 'c 'd (3 . e) (4 . f)))
 (check-equal? (vector-assoc 3 vec) '(3 . e))
 
+; 10
+(define cache-test (cached-assoc (list (cons 1 2) (cons 2 4) (cons 3 8) (cons 4 16) (cons 5 32) (cons 6 64)) 3))
+(check-equal? (cache-test 3) (cons 3 8))
+
 ;(define files (string-append-map 
 ;               (list "dan" "dog" "curry" "dog2") 
 ;               ".jpg"))
