@@ -81,6 +81,12 @@
 ; 10
 (define cache-test (cached-assoc (list (cons 1 2) (cons 2 4) (cons 3 8) (cons 4 16) (cons 5 32) (cons 6 64)) 3))
 (check-equal? (cache-test 3) (cons 3 8))
+(check-equal? (cache-test 1) (cons 1 2))
+(check-equal? (cache-test 2) (cons 2 4))
+(check-equal? (cache-test 4) (cons 4 16))
+(check-equal? (cache-test 5) (cons 5 32))
+(check-equal? (cache-test 4) (cons 4 16))
+
 
 ;(define files (string-append-map 
 ;               (list "dan" "dog" "curry" "dog2") 

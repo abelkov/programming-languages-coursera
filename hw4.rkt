@@ -80,6 +80,7 @@
             (let ([found-answer (assoc v xs)])
               (if (pair? found-answer)
                   (begin (vector-set! cache (remainder counter n) found-answer)
+                         (print cache)
                          (set! counter (+ 1 counter))
                          found-answer)
                   #f)))))
