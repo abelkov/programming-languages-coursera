@@ -86,3 +86,14 @@
                   #f)))))
     helper-assoc))
 
+; 11
+(define-syntax while-less
+  (syntax-rules (do)
+    [(while-less e1 do e2)
+     (letrec ([v1 e1]
+            [loop (lambda ()
+                    (let ([v2 e2])
+                    (if (not (< v2 v1))
+                        #t
+                        (loop))))])
+       (loop))]))

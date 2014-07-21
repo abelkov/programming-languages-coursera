@@ -87,6 +87,11 @@
 (check-equal? (cache-test 5) (cons 5 32))
 (check-equal? (cache-test 4) (cons 4 16))
 
+;11
+(define a 2)
+(while-less 7 do (begin (set! a (+ a 1)) (print "x") a))
+(while-less 7 do (begin (set! a (+ a 1)) (print "x") a))
+
 
 ;(define files (string-append-map 
 ;               (list "dan" "dog" "curry" "dog2") 
