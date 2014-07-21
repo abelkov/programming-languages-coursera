@@ -68,4 +68,20 @@
                 [(equal? (car cur) v) cur]
                 [#t (iter (+ n 1))]))))
   (iter 0))
-  
+
+; 10
+(define (cached-assoc xs n)
+  (let ([cache (make-vector n #f)]
+        [counter 0])
+    (define (helper-assoc v)
+      (let ([cached-answer (vector-assoc v cache)])
+        (if (pair? cached-answer)
+            cached-answer
+            (let ([found-answer (assoc v xs)])
+              (if (pair? found-answer)
+                  (begin (vector-set! cache (remainder counter n) found-answer)
+                         (set! counter (+ 1 counter))
+                         found-answer)
+                  #f)))))
+    helper-assoc))
+
