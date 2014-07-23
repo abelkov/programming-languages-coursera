@@ -55,6 +55,7 @@
 (define (eval-under-env e env)
   (cond [(var? e) 
          (envlookup env (var-string e))]
+        [(int? e) e]    
         [(add? e) 
          (let ([v1 (eval-under-env (add-e1 e) env)]
                [v2 (eval-under-env (add-e2 e) env)])
@@ -63,13 +64,18 @@
                (int (+ (int-num v1) 
                        (int-num v2)))
                (error "MUPL addition applied to non-number")))]
-        [(int? e) e]
+        [(if-greater? e)
+         (let ([v1 (eval-under-env (if-greater-e1 e) env)]
+               [v2 (eval-under-env (if-greater-e2 e) env)])
+           (if (> v1 v2)
+               (eval-under-env (if-greater-e3 e) env)
+               (eval-under-env (if-greater-e4 e) env)))]
         [(mlet? e)
          (eval-under-env (mlet-body e)
                          (extend-env (mlet-var e)
                                      (eval-under-env (mlet-e e) env)
                                      env))]
-        ;; CHANGE add more cases here
+        [(closure? e) e]
         [#t (error "bad MUPL expression")]))
 
 ;; Do NOT change
