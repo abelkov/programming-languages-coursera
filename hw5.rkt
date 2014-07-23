@@ -44,6 +44,10 @@
         [(equal? (car (car env)) str) (cdr (car env))]
         [#t (envlookup (cdr env) str)]))
 
+(define (extend-env identifier value env)
+  (cons (cons identifier value)
+        env))
+
 ;; Do NOT change the two cases given to you.  
 ;; DO add more cases for other kinds of MUPL expressions.
 ;; We will test eval-under-env by calling it directly even though
@@ -62,10 +66,9 @@
         [(int? e) e]
         [(mlet? e)
          (eval-under-env (mlet-body e)
-                         (cons (cons (mlet-var e)
-                                     (eval-under-env (mlet-e e)
-                                                     env))
-                               env))]
+                         (extend-env (mlet-var e)
+                                     (eval-under-env (mlet-e e) env)
+                                     env))]
         ;; CHANGE add more cases here
         [#t (error "bad MUPL expression")]))
 
