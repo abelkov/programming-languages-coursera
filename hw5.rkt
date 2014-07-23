@@ -22,7 +22,18 @@
 
 ;; Problem 1
 
-;; CHANGE (put your solutions here)
+(define (racketlist->mupllist l)
+  (if (null? l)
+      (aunit)
+      (apair (car l)
+             (racketlist->mupllist (cdr l)))))
+
+(define (mupllist->racketlist l)
+  (if (aunit? l)
+      null
+      (cons (apair-e1 l)
+            (mupllist->racketlist (apair-e2 l)))))
+  
 
 ;; Problem 2
 
