@@ -75,6 +75,25 @@
                          (extend-env (mlet-var e)
                                      (eval-under-env (mlet-e e) env)
                                      env))]
+        [(apair? e)
+         (let ([v1 (eval-under-env (apair-e1 e) env)]
+               [v2 (eval-under-env (apair-e2 e) env)])
+           (apair v1 v2))]
+        [(fst? e)
+         (let ([v (eval-under-env e env)])
+           (if (apair? v)
+               (apair-e1 v)
+               (error "MUPL fst applied to non-pair")))]
+        [(snd? e)
+         (let ([v (eval-under-env e env)])
+           (if (apair? v)
+               (apair-e2 v)
+               (error "MUPL snd applied to non-pair")))]
+        [(aunit? e) e]
+        [(isaunit? e)
+         (if (aunit? (isaunit-e e))
+             (int 1)
+             (int 0))]
         [(closure? e) e]
         [#t (error "bad MUPL expression")]))
 
