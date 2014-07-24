@@ -44,9 +44,11 @@
         [(equal? (car (car env)) str) (cdr (car env))]
         [#t (envlookup (cdr env) str)]))
 
-(define (extend-env identifier value env)
-  (cons (cons identifier value)
-        env))
+; bindings in the form (list (cons id val) (cons id val) ...)
+(define (extend-env env bindings)
+  (if (null? bindings)
+      env
+      (cons (car bindings) (extend-env env (cdr bindings)))))
 
 ;; Do NOT change the two cases given to you.  
 ;; DO add more cases for other kinds of MUPL expressions.
@@ -87,16 +89,16 @@
                       [formal (fun-formal f)])
                  (if (not name)
                      (eval-under-env body
-                                     (extend-env formal arg f-env))
+                                     (extend-env f-env (list (cons formal arg))))
                      (eval-under-env body
-                                     (extend-env formal
-                                                 arg
-                                                 (extend-env name f f-env)))))))]
+                                     (extend-env f-env
+                                                 (list (cons formal arg)
+                                                       (cons name f))))))))]
         [(mlet? e)
          (eval-under-env (mlet-body e)
-                         (extend-env (mlet-var e)
-                                     (eval-under-env (mlet-e e) env)
-                                     env))]
+                         (extend-env env
+                                     (list (cons (mlet-var e)
+                                                 (eval-under-env (mlet-e e) env)))))]
         [(apair? e)
          (let ([v1 (eval-under-env (apair-e1 e) env)]
                [v2 (eval-under-env (apair-e2 e) env)])
