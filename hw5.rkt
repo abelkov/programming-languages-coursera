@@ -67,9 +67,12 @@
         [(ifgreater? e)
          (let ([v1 (eval-under-env (ifgreater-e1 e) env)]
                [v2 (eval-under-env (ifgreater-e2 e) env)])
-           (if (> v1 v2)
-               (eval-under-env (ifgreater-e3 e) env)
-               (eval-under-env (ifgreater-e4 e) env)))]
+           (if (and (int? v1)
+                    (int? v2))
+               (if (> (int-num v1) (int-num v2))
+                   (eval-under-env (ifgreater-e3 e) env)
+                   (eval-under-env (ifgreater-e4 e) env))
+               (error "first two arguments to ifgreater must be numbers")))]
         [(fun? e)
          (closure env e)]
         [(call? e)
