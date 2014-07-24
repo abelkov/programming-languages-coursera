@@ -33,7 +33,7 @@
       null
       (cons (apair-e1 l)
             (mupllist->racketlist (apair-e2 l)))))
-  
+
 
 ;; Problem 2
 
@@ -70,6 +70,25 @@
            (if (> v1 v2)
                (eval-under-env (ifgreater-e3 e) env)
                (eval-under-env (ifgreater-e4 e) env)))]
+        [(fun? e)
+         (closure env e)]
+        [(call? e)
+         (let ([c (eval-under-env (call-funexp e) env)]
+               [arg (eval-under-env (call-actual e) env)])
+           (if (not (closure? c))
+               (error "call's first argument must be a function")
+               (let* ([f (closure-fun c)]
+                      [f-env (closure-env c)]
+                      [name (fun-nameopt f)]
+                      [body (fun-body f)]
+                      [formal (fun-formal f)])
+                 (if (not name)
+                     (eval-under-env body
+                                     (extend-env formal arg f-env))
+                     (eval-under-env body
+                                     (extend-env formal
+                                                 arg
+                                                 (extend-env name f f-env)))))))]
         [(mlet? e)
          (eval-under-env (mlet-body e)
                          (extend-env (mlet-var e)
