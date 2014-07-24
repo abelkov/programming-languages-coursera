@@ -64,12 +64,12 @@
                (int (+ (int-num v1) 
                        (int-num v2)))
                (error "MUPL addition applied to non-number")))]
-        [(if-greater? e)
-         (let ([v1 (eval-under-env (if-greater-e1 e) env)]
-               [v2 (eval-under-env (if-greater-e2 e) env)])
+        [(ifgreater? e)
+         (let ([v1 (eval-under-env (ifgreater-e1 e) env)]
+               [v2 (eval-under-env (ifgreater-e2 e) env)])
            (if (> v1 v2)
-               (eval-under-env (if-greater-e3 e) env)
-               (eval-under-env (if-greater-e4 e) env)))]
+               (eval-under-env (ifgreater-e3 e) env)
+               (eval-under-env (ifgreater-e4 e) env)))]
         [(mlet? e)
          (eval-under-env (mlet-body e)
                          (extend-env (mlet-var e)
