@@ -93,7 +93,7 @@
                      (eval-under-env body
                                      (extend-env f-env
                                                  (list (cons formal arg)
-                                                       (cons name f))))))))]
+                                                       (cons name (eval-exp f)))))))))]
         [(mlet? e)
          (eval-under-env (mlet-body e)
                          (extend-env env
@@ -104,12 +104,12 @@
                [v2 (eval-under-env (apair-e2 e) env)])
            (apair v1 v2))]
         [(fst? e)
-         (let ([v (eval-under-env e env)])
+         (let ([v (eval-under-env (fst-e e) env)])
            (if (apair? v)
                (apair-e1 v)
                (error "MUPL fst applied to non-pair")))]
         [(snd? e)
-         (let ([v (eval-under-env e env)])
+         (let ([v (eval-under-env (snd-e e) env)])
            (if (apair? v)
                (apair-e2 v)
                (error "MUPL snd applied to non-pair")))]

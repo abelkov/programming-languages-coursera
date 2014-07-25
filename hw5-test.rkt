@@ -39,18 +39,19 @@
 (check-equal? (eval-exp (mlet "ref" (int 2) (call f2_2 (int 3))))
               (int 45)
               "Testing unused mlet with call")
-;
-;(define p2 (eval-exp (apair (int 7) (int 8))))
-;(check-equal? (eval-exp (fst p2)) (int 7) "Testing fst")
-;(check-equal? (eval-exp (snd p2)) (int 8) "Testing snd")
-;
-;(define f2_sumall (eval-exp (fun "sumall" "nb" (ifgreater (var "nb")
-;                                                          (int 0)
-;                                                          (add (var "nb") (call (var "sumall") (add (int -1) (var "nb"))))
-;                                                          (int 0)))))
-;(check-equal? (eval-exp (call f2_sumall (int 10)))
-;              (int 55)
-;              "Testing recursive function")
+
+(define p2 (eval-exp (apair (add (int 3) (int 4)) (int 8))))
+(check-equal? p2 (apair (int 7) (int 8)) "Testing apair")
+(check-equal? (eval-exp (fst p2)) (int 7) "Testing fst")
+(check-equal? (eval-exp (snd p2)) (int 8) "Testing snd")
+
+(define f2_sumall (fun "sumall" "nb" (ifgreater (var "nb")
+                                                (int 0)
+                                                (add (var "nb") (call (var "sumall") (add (int -1) (var "nb"))))
+                                                (int 0))))
+(check-equal? (eval-exp (call f2_sumall (int 10)))
+              (int 55)
+              "Testing recursive function")
 
 ;; 3
 ;(check-equal? (eval-exp (ifaunit (int 6) (add (var "crashifeval") (int 1)) (int 42)))
