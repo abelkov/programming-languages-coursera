@@ -53,13 +53,13 @@
               (int 55)
               "Testing recursive function")
 
-;; 3
-;(check-equal? (eval-exp (ifaunit (int 6) (add (var "crashifeval") (int 1)) (int 42)))
-;              (int 42)
-;              "Testing ifaunit 6")
-;(check-equal? (eval-exp (ifaunit (aunit) (int 42) (add (var "crashifeval") (int 1))))
-;              (int 42)
-;              "Testing ifaunit aunit")
+; 3
+(check-equal? (eval-exp (ifaunit (int 6) (add (var "crashifeval") (int 1)) (int 42)))
+              (int 42)
+              "Testing ifaunit 6")
+(check-equal? (eval-exp (ifaunit (aunit) (int 42) (add (var "crashifeval") (int 1))))
+              (int 42)
+              "Testing ifaunit aunit")
 ;(check-equal? (eval-exp (mlet* (list (cons "a" (int 5)) (cons "b" (int 6))) (add (var "b") (var "a"))))
 ;              (int 11)
 ;              "Testing mlet*")
