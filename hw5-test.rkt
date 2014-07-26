@@ -74,13 +74,13 @@
 (check-equal? (eval-exp (ifeq (int 5) (int 6) (add (int 0) (var "crashifeval")) (int 42)))
               (int 42)
               "Testing ifeq 5 6")
-;
-;; 4
-;(define nums (racketlist->mupllist (list (int 1) (int 2) (int 3) (int 4))))
-;(check-equal? (eval-exp (call (call mupl-mapAddN (int 10)) nums))
-;              (racketlist->mupllist(list (int 11) (int 12) (int 13) (int 14)))
-;              "Testing mupl-map and mupl-mapAddN")
-;
+
+; 4
+(define nums (racketlist->mupllist (list (int 1) (int 2) (int 3) (int 4))))
+(check-equal? (eval-exp (call (call mupl-mapAddN (int 10)) nums))
+              (racketlist->mupllist(list (int 11) (int 12) (int 13) (int 14)))
+              "Testing mupl-map and mupl-mapAddN")
+
 ;; Challenge
 ;(check-equal? (compute-free-vars (mlet "g" (fun #f "funarg"
 ;                                                (fun "#f" "z"

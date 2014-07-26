@@ -147,8 +147,16 @@
 
 ;; Problem 4
 
+;(define (map proc)
+;  (define (to-every lst)
+;    (if (null? lst)
+;        null
+;        (cons (proc (car lst))
+;              (to-every (cdr lst)))))
+;  to-every)
+
 (define mupl-map
-  (fun "mupl-map" "proc"
+  (fun #f "proc"
        (fun "to-every" "lst"
             (ifaunit (var "lst")
                      (aunit)
@@ -157,7 +165,13 @@
 
 (define mupl-mapAddN 
   (mlet "map" mupl-map
-        "CHANGE (notice map is now in MUPL scope)"))
+        (fun #f "n"
+             (fun #f
+                  "lst"
+                  (call (call (var "map")
+                              (fun #f "i" (add (var "i") (var "n"))))
+                        (var "lst"))))))
+                  
 
 ;; Challenge Problem
 
