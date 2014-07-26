@@ -147,7 +147,13 @@
 
 ;; Problem 4
 
-(define mupl-map "CHANGE")
+(define mupl-map
+  (fun "mupl-map" "proc"
+       (fun "to-every" "lst"
+            (ifaunit (var "lst")
+                     (aunit)
+                     (apair (call (var "proc") (fst (var "lst")))
+                            (call (var "to-every") (snd (var "lst"))))))))
 
 (define mupl-mapAddN 
   (mlet "map" mupl-map
