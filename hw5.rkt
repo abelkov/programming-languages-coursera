@@ -132,7 +132,12 @@
 (define (ifaunit e1 e2 e3)
   (ifgreater (isaunit e1) (int 0) e2 e3))
 
-(define (mlet* lstlst e2) "CHANGE")
+(define (mlet* bindings e)
+  (if (null? bindings)
+      e
+      (mlet (caar bindings)
+            (cdar bindings)
+            (mlet* (cdr bindings) e))))
 
 (define (ifeq e1 e2 e3 e4) "CHANGE")
 
