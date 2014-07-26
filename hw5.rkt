@@ -139,7 +139,12 @@
             (cdar bindings)
             (mlet* (cdr bindings) e))))
 
-(define (ifeq e1 e2 e3 e4) "CHANGE")
+(define (ifeq e1 e2 e3 e4)
+  (let ([v1 (int-num (eval-exp e1))]
+        [v2 (int-num (eval-exp e2))])
+    (if (eq? v1 v2)
+        (ifgreater (int 1) (int 0) e3 e4)
+        (ifgreater (int 0) (int 0) e3 e4))))
 
 ;; Problem 4
 
