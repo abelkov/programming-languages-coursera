@@ -10,7 +10,7 @@ class Piece
   # color, rotation, and starting position.
   def initialize (point_array, board)
     @all_rotations = point_array
-    @rotation_index = (0..(@all_rotations.size-1)).to_a.sample
+    @rotation_index = rand(@all_rotations.size)
     @color = All_Colors.sample
     @base_position = [5, 0] # [column, row]
     @board = board
@@ -50,8 +50,8 @@ class Piece
     # will put this block in an occupied space
     potential.each{|posns| 
       if !(@board.empty_at([posns[0] + delta_x + @base_position[0],
-                            posns[1] + delta_y + @base_position[1]]));
-        moved = false;  
+                            posns[1] + delta_y + @base_position[1]]))
+        moved = false
       end
     }
     if moved
@@ -100,6 +100,12 @@ class Board
     @score = 0
     @game = game
     @delay = 500
+    @action = {
+      :l => [-1, 0, 0],
+      :r => [1, 0, 0],
+      :cw => [0, 0, 1],
+      :ccw => [0, 0, -1]
+    }
   end
    
   # both the length and the width of a block, since it is a square
@@ -145,37 +151,45 @@ class Board
     draw
   end
 
-  # moves the current piece left if possible
-  def move_left
+  def move (choice)
     if !game_over? and @game.is_running?
-      @current_block.move(-1, 0, 0)
+      x, y, rot = @action[choice]   
+      @current_block.move(x, y, rot)
     end
     draw
   end
 
-  # moves the current piece right if possible
-  def move_right
-    if !game_over? and @game.is_running?
-      @current_block.move(1, 0, 0)
-    end
-    draw
-  end
+  # # moves the current piece left if possible
+  # def move_left
+  #   if !game_over? and @game.is_running?
+  #     @current_block.move(-1, 0, 0)
+  #   end
+  #   draw
+  # end
 
-  # rotates the current piece clockwise
-  def rotate_clockwise
-    if !game_over? and @game.is_running?
-      @current_block.move(0, 0, 1)
-    end
-    draw
-  end
+  # # moves the current piece right if possible
+  # def move_right
+  #   if !game_over? and @game.is_running?
+  #     @current_block.move(1, 0, 0)
+  #   end
+  #   draw
+  # end
 
-  # rotates the current piece counterclockwise
-  def rotate_counter_clockwise
-    if !game_over? and @game.is_running?
-      @current_block.move(0, 0, -1)
-    end
-    draw
-  end
+  # # rotates the current piece clockwise
+  # def rotate_clockwise
+  #   if !game_over? and @game.is_running?
+  #     @current_block.move(0, 0, 1)
+  #   end
+  #   draw
+  # end
+
+  # # rotates the current piece counterclockwise
+  # def rotate_counter_clockwise
+  #   if !game_over? and @game.is_running?
+  #     @current_block.move(0, 0, -1)
+  #   end
+  #   draw
+  # end
   
   # drops the piece to the lowest location in the currently occupied columns.
   # Then replaces it with a new piece
@@ -292,17 +306,17 @@ class Tetris
 
     @root.bind('q', proc {exitProgram})
     
-    @root.bind('a', proc {@board.move_left})
-    @root.bind('Left', proc {@board.move_left}) 
+    @root.bind('a', proc {@board.move(:l)})
+    @root.bind('Left', proc {@board.move(:l)}) 
     
-    @root.bind('d', proc {@board.move_right})
-    @root.bind('Right', proc {@board.move_right}) 
+    @root.bind('d', proc {@board.move(:r)})
+    @root.bind('Right', proc {@board.move(:r)}) 
 
-    @root.bind('s', proc {@board.rotate_clockwise})
-    @root.bind('Down', proc {@board.rotate_clockwise})
+    @root.bind('s', proc {@board.move(:cw)})
+    @root.bind('Down', proc {@board.move(:cw)})
 
-    @root.bind('w', proc {@board.rotate_counter_clockwise})
-    @root.bind('Up', proc {@board.rotate_counter_clockwise}) 
+    @root.bind('w', proc {@board.move(:ccw)})
+    @root.bind('Up', proc {@board.move(:ccw)}) 
     
     @root.bind('space' , proc {@board.drop_all_the_way}) 
   end
@@ -317,17 +331,17 @@ class Tetris
     quit = TetrisButton.new('quit', 'lightcoral'){exitProgram}
     quit.place(35, 50, 140, 7)
     
-    move_left = TetrisButton.new('left', 'lightgreen'){@board.move_left}
+    move_left = TetrisButton.new('left', 'lightgreen'){@board.move(:l)}
     move_left.place(35, 50, 27, 536)
     
-    move_right = TetrisButton.new('right', 'lightgreen'){@board.move_right}
+    move_right = TetrisButton.new('right', 'lightgreen'){@board.move(:r)}
     move_right.place(35, 50, 127, 536)
     
-    rotate_clock = TetrisButton.new('^_)', 'lightgreen'){@board.rotate_clockwise}
+    rotate_clock = TetrisButton.new('^_)', 'lightgreen'){@board.move(:cw)}
     rotate_clock.place(35, 50, 77, 501)
 
     rotate_counter = TetrisButton.new('(_^', 'lightgreen'){
-      @board.rotate_counter_clockwise}
+      @board.move(:ccw)}
     rotate_counter.place(35, 50, 77, 571)
     
     drop = TetrisButton.new('drop', 'lightgreen'){@board.drop_all_the_way}
