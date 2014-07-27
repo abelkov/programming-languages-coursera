@@ -4,7 +4,10 @@
 # part of your solution.
 
 class MyTetris < Tetris
-  # your enhancements here
+  def key_bindings
+  	super()
+  	@root.bind('u', proc {@board.move(:cw); @board.move(:cw)})
+  end
 
 end
 
