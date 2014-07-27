@@ -151,6 +151,7 @@ class Board
     draw
   end
 
+  # move piece left or right or turn it clockwise or counter-clockwise
   def move (choice)
     if !game_over? and @game.is_running?
       x, y, rot = @action[choice]   
@@ -158,38 +159,6 @@ class Board
     end
     draw
   end
-
-  # # moves the current piece left if possible
-  # def move_left
-  #   if !game_over? and @game.is_running?
-  #     @current_block.move(-1, 0, 0)
-  #   end
-  #   draw
-  # end
-
-  # # moves the current piece right if possible
-  # def move_right
-  #   if !game_over? and @game.is_running?
-  #     @current_block.move(1, 0, 0)
-  #   end
-  #   draw
-  # end
-
-  # # rotates the current piece clockwise
-  # def rotate_clockwise
-  #   if !game_over? and @game.is_running?
-  #     @current_block.move(0, 0, 1)
-  #   end
-  #   draw
-  # end
-
-  # # rotates the current piece counterclockwise
-  # def rotate_counter_clockwise
-  #   if !game_over? and @game.is_running?
-  #     @current_block.move(0, 0, -1)
-  #   end
-  #   draw
-  # end
   
   # drops the piece to the lowest location in the currently occupied columns.
   # Then replaces it with a new piece
