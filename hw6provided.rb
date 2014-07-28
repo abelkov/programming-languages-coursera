@@ -83,7 +83,11 @@ class Piece
                rotations([[0, 0], [0, -1], [0, 1], [1, 1]]), # L
                rotations([[0, 0], [0, -1], [0, 1], [-1, 1]]), # inverted L
                rotations([[0, 0], [-1, 0], [0, -1], [1, -1]]), # S
-               rotations([[0, 0], [1, 0], [0, -1], [-1, -1]])] # Z
+               rotations([[0, 0], [1, 0], [0, -1], [-1, -1]]), # Z
+               rotations([[0, 0], [1, 0], [0, 1], [1, 1], [2, 1]]),
+               [[[0, 0], [-1, 0], [-2, 0], [1, 0], [2, 0]], # very long
+               [[0, 0], [0, -1], [0, -2], [0, 1], [0, 2]]],
+               rotations([[0, 0], [0, 1], [1, 1]])]
 
   # class array 
   All_Colors = ['DarkGreen', 'dark blue', 'dark red', 'gold2', 'Purple3', 
@@ -192,7 +196,7 @@ class Board
   def store_current
     locations = @current_block.current_rotation
     displacement = @current_block.position
-    (0..3).each{|index| 
+    (0..locations.length-1).each{|index| 
       current = locations[index];
       @grid[current[1]+displacement[1]][current[0]+displacement[0]] = 
       @current_pos[index]
@@ -286,6 +290,8 @@ class Tetris
 
     @root.bind('w', proc {@board.move(:ccw)})
     @root.bind('Up', proc {@board.move(:ccw)}) 
+
+    @root.bind('u', proc {@board.move(:cw); @board.move(:cw)})
     
     @root.bind('space' , proc {@board.drop_all_the_way}) 
   end
