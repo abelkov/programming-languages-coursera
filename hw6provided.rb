@@ -72,9 +72,17 @@ class Piece
 
   # class method to choose the next piece
   def self.next_piece (board)
-    Piece.new(All_Pieces.sample, board)
+    if board.cheat
+      board.cheat = false
+      if board.score >= 100
+        board.score -= 100
+        Piece.new([[0, 0]], board)
+      end
+    else
+      Piece.new(All_Pieces.sample, board)
+    end
   end
-  
+
   # class array holding all the pieces and their rotations
   All_Pieces = [[[[0, 0], [1, 0], [0, 1], [1, 1]]],  # square (only needs one)
                rotations([[0, 0], [-1, 0], [1, 0], [0, -1]]), # T
@@ -97,11 +105,13 @@ end
 
 # Class responsible for the interaction between the pieces and the game itself
 class Board
+  attr_accessor :cheat, :score
 
   def initialize (game)
     @grid = Array.new(num_rows) {Array.new(num_columns)}
     @current_block = Piece.next_piece(self)
     @score = 0
+    @cheat = false
     @game = game
     @delay = 500
     @action = {
@@ -123,11 +133,6 @@ class Board
 
   def num_rows
     27
-  end
-  
-  # the current score
-  def score
-    @score
   end
 
   # the current delay
@@ -278,6 +283,8 @@ class Tetris
     @root.bind('p', proc {self.pause}) 
 
     @root.bind('q', proc {exitProgram})
+
+    @root.bind('c', proc {@board.cheat = true})
     
     @root.bind('a', proc {@board.move(:l)})
     @root.bind('Left', proc {@board.move(:l)}) 
